@@ -1,0 +1,62 @@
+{% extends "crud/base.html" %}
+
+{% block content%}
+    <div class="row">
+        <h1>User Manager</h1>
+                  
+            <div class="col-sm-12">
+                    <a href="{% url 'crud:CRUD_create' %}" class="btn btn-primary" >Add a User</a>
+                    <br>
+                        <div class="panel panel-default">
+                            
+                            <div class="panel-body">
+                                {% if crud_list %}
+                                    <div class=" col-sm-offset-1 col-sm-10">
+                                            <form action="" method="GET">
+                                                <select name="category">
+                                                    <option value="" disabled selected>Order By</option>
+                                                    <option value="first_name">First Name</option>
+                                                    <option value="last_name">Last Name</option>
+                                                    <option value="date_of_contact">Date of Contact</option>
+                                                </select>
+                                                <button class="glyphicon glyphicon-download" name="asc" value="asc" type="submit"></button>
+                                                <button class="glyphicon glyphicon-upload" name="desc" value="desc" type="submit"></button>
+                                            </form>
+                                {% endif %}
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Telephone</th>
+                                            <th>Date of Contact</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in crud_list %}
+                                            <tr>
+                                                <td>{{ user.first_name }}</td>
+                                                <td>{{ user.last_name }}</td>
+                                                <td>{{ user.telephone }}</td>
+                                                <td>{{ user.date_of_contact }}</td>
+                                                <td>
+                                                    
+                                                        
+                                                        <form method="POST" action="{% url 'crud:CRUD_delete' user.pk %}">
+                                                                <a href="{% url 'crud:CRUD_edit' user.pk %}" class="btn btn-info" >Edit</a>
+                                                                {% csrf_token %}<input type="submit" value="DELETE" class="btn btn-danger">
+                                                             </form>
+                                                </td>
+                                                
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                </div>
+{% endblock%}
